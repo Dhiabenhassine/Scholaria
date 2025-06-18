@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: Scholaria
+      MYSQL_USER: scholaria_user
+      MYSQL_PASSWORD: scholaria_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - user-service
+      - class-service
+
+  user-service:
+    build: ./user-service
+    ports:
+      - "3001:3001"
+    environment:
+      DB_HOST: mysql
+      DB_USER: scholaria_user
+      DB_PASS: scholaria_pass
+      DB_NAME: Scholaria
+    depends_on:
+      - mysql
+
+  course-service:
+    build: ./class-service
+    ports:
+      - "3002:3002"
+    environment:
+      DB_HOST: mysql
+      DB_USER: scholaria_user
+      DB_PASS: scholaria_pass
+      DB_NAME: Scholaria
+    depends_on:
+      - mysql
+
+volumes:
+  mysql-data:
