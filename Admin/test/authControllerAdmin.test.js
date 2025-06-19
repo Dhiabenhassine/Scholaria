@@ -63,14 +63,17 @@ describe('Auth Controller Tests', () => {
     });
 
     it('should handle errors when fetching user by ID', async () => {
-      sequelize.query.mockRejectedValueOnce(new Error('Database error'));
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  sequelize.query.mockRejectedValueOnce(new Error('Database error'));
 
-      const response = await request(app)
-        .post('/admin/getUserById')
-        .send({ id_Users: 1 });
+  const response = await request(app)
+    .post('/admin/getUserById')
+    .send({ id_Users: 1 });
 
-      expect(response.status).toBe(500);
-      expect(response.body.message).toBe('Internal server error');
+  expect(response.status).toBe(500);
+  expect(response.body.message).toBe('Internal server error');
+
+  consoleSpy.mockRestore();
     });
   });
 

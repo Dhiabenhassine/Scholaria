@@ -5,7 +5,11 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest"
+    "testClass": "jest classControllerAdmin.test.js",
+    "testUser": "jest authControllerAdmin.test.js",
+    "testStudent": "jest studentControllerAdmin.test.js"
+
+
   },
   "keywords": [],
   "author": "",
