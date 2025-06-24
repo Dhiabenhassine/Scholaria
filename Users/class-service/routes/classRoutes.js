@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const Class = require('../models/Class');
-
-router.get('/', async (req, res) => {
-  const classes = await Class.findAll();
-  res.json(classes);
-});
-
+const {selectClassesProf} = require ('../controllers/ClasseController')
 router.post('/', async (req, res) => {
-  const newClass = await Class.create(req.body);
-  res.json(newClass);
+  try {
+    const users = await selectClassesProf(req, res);
+    res.json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 module.exports = router;

@@ -65,6 +65,8 @@ const proxyRequest = (targetUrl) => async (req, res) => {
 // Routes
 app.use('/users', proxyRequest('http://localhost:3001'));
 app.use('/admin', proxyRequest('http://localhost:3100'));
+app.use('/classesUser',proxyRequest('http://localhost:3002'))
+
 
 app.listen(3000, () => {
   console.log('🚀 API Gateway running on port 3000');

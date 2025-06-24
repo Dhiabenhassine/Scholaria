@@ -65,6 +65,7 @@ const updatetudent=async(req,res)=>{
     res.status(500).json({ message: "Internal server error" });
   }
 }
+
 module.exports = {
     selectAllStudents,insertStudent,selectStudentById,updatetudent
 }
