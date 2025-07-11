@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  user-service:
+    build: ./Users/user-service
+    ports:
+      - "3001:3001"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  class-service:
+    build: ./Users/class-service
+    ports:
+      - "3002:3002"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  admin:
+    build: ./Admin
+    ports:
+      - "3100:3100"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - user-service
+      - class-service
+      - admin
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
